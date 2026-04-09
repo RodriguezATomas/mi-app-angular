@@ -8,16 +8,16 @@ export class UsuariosService {
   private http = inject(HttpClient);
   private URL_API = 'http://localhost:3000/api/usuarios';
 
-  // Leer
+  // Leer Usuarios
   getUsuarios() {
     return this.http.get<any[]>(this.URL_API);
   }
 
-  // En usuarios.service.ts
+  // Eliminar Usuario
 eliminarUsuario(id: string) { // <-- Aquí debe decir string
   return this.http.delete(`${this.URL_API}/${id}`);
 }
-  // Crear
+  // Crear Usuario
   agregarUsuario(nuevoUsuario: any) {
     return this.http.post(this.URL_API, nuevoUsuario);
   }
