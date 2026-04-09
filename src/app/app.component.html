@@ -1,0 +1,35 @@
+<div style="padding: 20px; max-width: 600px; margin: auto; font-family: sans-serif;">
+  <h1>👥 Gestión de Usuarios</h1>
+
+  <div style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+    <h3>Agregar Nuevo Usuario</h3>
+    <input #nuevoNombre type="text" placeholder="Nombre">
+    <input #nuevoRol type="text" placeholder="Rol">
+    <button (click)="crear(nuevoNombre.value, nuevoRol.value); nuevoNombre.value=''; nuevoRol.value=''">
+      Guardar
+    </button>
+  </div>
+
+  <hr>
+
+  <table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background: #eee;">
+        <th>Nombre</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (u of listaUsuarios; track u.id) {
+        <tr>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.rol }}</td>
+          <td>
+            <button (click)="borrar(u.id)" style="color: red;">Eliminar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
