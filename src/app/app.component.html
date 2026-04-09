@@ -1,47 +1,42 @@
-<!-- Es el html principal que se muestra 
- 
-Captura Datos: Usa etiquetas # para leer lo que escribes en los cuadros de texto.
+<div style="padding: 20px; font-family: sans-serif;">
+  <h1>☁️ Procesador de Excel vía API ☁️</h1>
 
-Envía Acciones: Mediante (click), conecta los botones del HTML con las funciones que programaste en el archivo TypeScript (crear y borrar).
+  <button (click)="conectarDrive()" style="padding: 10px; background-color: #4285f4; color: white; border: none; border-radius: 4px; cursor: pointer;">
+    Seleccionar de Drive
+  </button>
 
-Muestra Información: Usa {{ }} para traer los datos desde tu "memoria" (el código) hacia la vista (lo que ve el usuario).
+  <hr>
 
-Automatiza Filas: Con @for, te ahorras tener que escribir una fila por cada usuario; Angular lo hace solo basándose en tu list
-
--->
-
-<div style="padding: 20px; max-width: 600px; margin: auto; font-family: sans-serif;">
-  <h1>👥 Gestión de Usuarios</h1>
-
-  <div style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-    <h3>Agregar Nuevo Usuario</h3>
-    <input #nuevoNombre type="text" placeholder="Nombre">
-    <input #nuevoRol type="text" placeholder="Rol">
-    <button (click)="crear(nuevoNombre.value, nuevoRol.value); nuevoNombre.value=''; nuevoRol.value=''">
-      Guardar
-    </button>
+  <div *ngIf="columnasTotales.length > 0">
+    <h3>Columnas detectadas ({{ columnasTotales.length }}):</h3>
+    <p>Selecciona las que deseas visualizar:</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; background: #f4f4f4; padding: 15px; border-radius: 8px;">
+      <label *ngFor="let col of columnasTotales" style="cursor: pointer;">
+        <input type="checkbox" (change)="toggleColumn(col)"> {{ col }}
+      </label>
+    </div>
   </div>
 
   <hr>
 
-  <table border="1" style="width: 100%; border-collapse: collapse;">
-    <thead>
-      <tr style="background: #eee;">
-        <th>Nombre</th>
-        <th>Rol</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (u of listaUsuarios; track u.id) {
+  <div *ngIf="columnasSeleccionadas.length > 0" style="margin-top: 20px; overflow-x: auto;">
+    <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead style="background-color: #eee;">
         <tr>
-          <td>{{ u.nombre }}</td>
-          <td>{{ u.rol }}</td>
-          <td>
-            <button (click)="borrar(u.id)" style="color: red;">Eliminar</button>
+          <th *ngFor="let col of columnasSeleccionadas" style="padding: 10px;">{{ col }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fila of todasLasFilas">
+          <td *ngFor="let col of columnasSeleccionadas" style="padding: 10px;">
+            {{ fila[col] }}
           </td>
         </tr>
-      }
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="columnasTotales.length > 0 && columnasSeleccionadas.length === 0" style="color: #666; margin-top: 10px;">
+    ⚠️ Por favor, marca al menos una columna arriba para ver los datos.
+  </div>
 </div>
